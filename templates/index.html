@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Spelling Corrector</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+
+        <div class="text-body">
+            <section class="title-part">
+                <h2 style="text-align: center;">Spelling Corrector</h2>
+
+                <div class="row">
+                    <div class="section-left col-md-6 col-xs-12">
+                        <form method="post" id="input-form" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <textarea class="form-control comment_data" rows="5" placeholder="Enter Text" required></textarea>
+                            </div>
+
+                            <div class="btn-submit">
+                                <button class="form-control btn-primary input-button">Correct Spell</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="result-box">
+                        <h6 class="title">Correct</h6>
+                        <div class="result-part">
+                            <div id="loading"><div class="loader"></div></div>
+                            <div class="json-result"></div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                $('#loading').hide();
+
+                $('#data').change(function(e){
+                });
+
+                $('.input-button').click(function(e){
+                    e.preventDefault();
+
+                    var input_text = $(".comment_data").val();
+                    if (input_text!=undefined && input_text!="")
+                    {
+                        $("#loading").show();
+
+                        $.ajax({
+                            url: "/predict",
+                            type: "post",
+                            mode: "no-cors",
+                            headers: {
+                                "Content-Type": "application/json;charset=UTF-8",
+                                "Access-Control-Allow-Origin": "*"
+                            },
+                            data: JSON.stringify({data: input_text}),
+                            success: function(response){
+                                console.log(response);
+                            }
+                        })
+                    }
+                    console.log(input_text);
+
+                });
+            });
+        </script>
+        
+    </body>
+    
+
+</html>
